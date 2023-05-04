@@ -1,8 +1,8 @@
-import Tmp from '^/tmp';
+import Main from '^/Main';
 
 (() => {
   const mainRoot = document.querySelector('#root');
   if (mainRoot !== null) {
-    mainRoot.innerHTML = Tmp();
+    mainRoot.appendChild(Main());
   }
 })();
