@@ -33,10 +33,5 @@ export function useFunctionComponentHooks({ render, rootElement }: Props) {
     return [getState, setState];
   }
 
-  /**
-   * @TODO
-   * Implement useEffect
-  */
-
   return { useState };
 }
