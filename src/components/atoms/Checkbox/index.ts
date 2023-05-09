@@ -1,14 +1,21 @@
+export enum CheckStatus {
+  NONE = 'none',
+  PARTIAL = 'partial',
+  FULL = 'full',
+}
+
 interface Props {
-  isChecked: boolean;
+  checkStatus: CheckStatus;
   onClick: () => void;
 }
 
-export default function Checkbox({ isChecked, onClick }: Props) {
+export default function Checkbox({ checkStatus, onClick }: Props) {
   const rootElement = document.createElement('input');
   rootElement.type = 'checkbox';
 
   function render() {
-    rootElement.checked = isChecked;
+    rootElement.checked = checkStatus === CheckStatus.FULL;
+    rootElement.indeterminate = checkStatus === CheckStatus.PARTIAL;
     rootElement.addEventListener('click', (event) => {
       event.stopPropagation();
       event.stopImmediatePropagation();
