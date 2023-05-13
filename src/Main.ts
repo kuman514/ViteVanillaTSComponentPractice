@@ -1,11 +1,17 @@
-import EndTipArrow from '^/components/atoms/EndTipArrow';
+import ComboboxBody from '^/components/atoms/ComboboxBody';
+import Checkbox, { CheckStatus } from '^/components/atoms/Checkbox';
 
 export default function Main() {
   const rootElement = document.createElement('div');
   function render() {
-    rootElement.appendChild(EndTipArrow({
-      width: '100px',
-      height: '100px',
+    rootElement.appendChild(ComboboxBody({
+      children: [
+        Checkbox({
+          checkStatus: CheckStatus.NONE,
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          onClick: () => {},
+        }),
+      ],
     }));
   }
 
