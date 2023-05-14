@@ -1,8 +1,4 @@
-export interface ComponentDataType {
-  id: number;
-  title: string;
-  children: ComponentDataType[];
-}
+import { ComponentDataType } from '^/types';
 
 export const componentData: ComponentDataType[] = [
   {
