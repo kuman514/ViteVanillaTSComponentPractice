@@ -1,8 +1,4 @@
-export enum CheckStatus {
-  NONE = 'none',
-  PARTIAL = 'partial',
-  FULL = 'full',
-}
+import { CheckStatus } from '^/types';
 
 interface Props {
   checkStatus: CheckStatus;
