@@ -22,9 +22,7 @@ export default function Combobox({ onClick, node }: Props) {
           onClick,
         }),
         Text({ text: node.title }),
-        EndTipArrow({
-          width: '10px',
-        }),
+        EndTipArrow(),
       ],
     }));
   }
