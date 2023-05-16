@@ -10,6 +10,13 @@
   padding-left: 8px;
   padding-right: 8px;
 
-  border: 1px solid black;
-  border-radius: 4px;
+  background-color: white;
+  &:hover {
+    background-color: rgb(185, 185, 185);
+  }
+}
+
+.combobox-body-active {
+  @extend .combobox-body;
+  background-color: rgb(185, 185, 185);
 }

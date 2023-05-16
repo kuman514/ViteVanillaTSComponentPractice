@@ -1,0 +1,11 @@
+.text {
+  box-sizing: border-box;
+  width: 100%;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  font-size: 12px;
+  font-weight: 700;
+}
