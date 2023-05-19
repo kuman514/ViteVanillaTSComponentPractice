@@ -7,6 +7,10 @@ export enum CheckStatus {
 export interface ComponentDataType {
   id: number;
   title: string;
-  checkStatus: CheckStatus;
   children: ComponentDataType[];
+}
+
+export interface ComponentStatus {
+  id: ComponentDataType['id'];
+  checkStatus: CheckStatus;
 }
