@@ -11,6 +11,6 @@ export interface ComponentDataType {
 }
 
 export interface ComponentStatus {
-  id: ComponentDataType['id'];
+  nodeId: ComponentDataType['id'];
   checkStatus: CheckStatus;
 }
