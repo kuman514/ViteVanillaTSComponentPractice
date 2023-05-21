@@ -9,9 +9,12 @@ interface Props {
   node: ComponentDataType;
   checkStatus: CheckStatus;
   onClick: () => void;
+  onChangeExpand: () => void;
 }
 
-export default function Combobox({ onClick, node, checkStatus }: Props) {
+export default function Combobox({
+  onClick, node, checkStatus, onChangeExpand,
+}: Props) {
   const rootElement = document.createElement('div');
   rootElement.className = 'combobox';
 
@@ -20,7 +23,7 @@ export default function Combobox({ onClick, node, checkStatus }: Props) {
       children: [
         Checkbox({ checkStatus, onClick }),
         Text({ text: node.title }),
-        EndTipArrow(),
+        EndTipArrow({ onClick: onChangeExpand }),
       ],
     }));
   }

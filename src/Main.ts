@@ -2,7 +2,9 @@ import { useFunctionComponentHooks } from '^/hooks/useFunctionComponentHooks';
 import {
   CheckStatus,
   ComponentStatus,
+  DepthFirstSearchExpandParameter,
   DepthFirstSearchParameter,
+  ExpandStatus,
 } from '^/types';
 import { initComponentData } from '^/mock';
 import ComboboxList from '^/components/molecules/ComboboxList';
@@ -24,6 +26,20 @@ export default function Main() {
     });
   }
 
+  function getInitExpandStatus({
+    nodeArray, nodeId, newExpandStatuses,
+  }: DepthFirstSearchExpandParameter) {
+    newExpandStatuses[nodeId] = false;
+    const nodeData = nodeArray[nodeArray.findIndex(node => node.id === nodeId)];
+    nodeData.children.forEach(childNode => {
+      getInitExpandStatus({
+        nodeArray: nodeData.children,
+        nodeId: childNode.id,
+        newExpandStatuses,
+      });
+    });
+  }
+
   const { useState } = useFunctionComponentHooks({ rootElement, render });
   const [getCheckStatuses, setCheckStatuses] = useState<ComponentStatus>(
     (() => {
@@ -38,6 +54,19 @@ export default function Main() {
       return initCheckStatus;
     })()
   );
+  const [getExpandStatuses, setExpandStatuses] = useState<ExpandStatus>(
+    (() => {
+      const initExpandStatus: ExpandStatus = {};
+      initComponentData.forEach(topNode => {
+        getInitExpandStatus({
+          nodeArray: initComponentData,
+          nodeId: topNode.id,
+          newExpandStatuses: initExpandStatus,
+        });
+      });
+      return initExpandStatus;
+    })()
+  );
 
   function render() {
     rootElement.appendChild(
@@ -47,6 +76,10 @@ export default function Main() {
         checkStatuses: getCheckStatuses(),
         onClick: newCheckStatus => {
           setCheckStatuses(newCheckStatus);
+        },
+        expandStatuses: getExpandStatuses(),
+        onExpand: newExapndStatus => {
+          setExpandStatuses(newExapndStatus);
         },
       })
     );

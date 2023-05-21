@@ -13,6 +13,7 @@ export default function Checkbox({ checkStatus, onClick }: Props) {
     rootElement.checked = checkStatus === CheckStatus.FULL;
     rootElement.indeterminate = checkStatus === CheckStatus.PARTIAL;
     rootElement.addEventListener('click', (event) => {
+      event.preventDefault();
       event.stopPropagation();
       event.stopImmediatePropagation();
       onClick();

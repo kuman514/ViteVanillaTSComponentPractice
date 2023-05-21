@@ -4,6 +4,7 @@ import {
   ComponentDataType,
   ComponentStatus,
   DepthFirstSearchParameter,
+  ExpandStatus,
 } from '^/types';
 import './style.scss';
 
@@ -11,14 +12,20 @@ interface Props {
   depth: number;
   nodes: ComponentDataType[];
   checkStatuses: ComponentStatus;
+  expandStatuses: ExpandStatus;
   onClick: (newCheckStatus: ComponentStatus) => void;
+  onExpand: (newExpandStatus: ExpandStatus) => void;
 }
 
 export default function ComboboxList({
-  depth, nodes, checkStatuses, onClick,
+  depth, nodes, checkStatuses, expandStatuses, onClick, onExpand,
 }: Props) {
   const rootElement = document.createElement('div');
   rootElement.className = 'combobox-list';
+
+  rootElement.setAttribute('style', `
+    margin-left: ${depth * 20}px;
+  `);
 
   function handleOnClickCheckbox({
     nodeArray, nodeId, newCheckStatuses, newCheckStatus,
@@ -55,16 +62,28 @@ export default function ComboboxList({
               newCheckStatuses,
               newCheckStatus,
             });
-            // Set State
             onClick(newCheckStatuses);
+          },
+          onChangeExpand: () => {
+            const newExpandStatus = {
+              ...expandStatuses,
+            };
+            newExpandStatus[node.id] = !newExpandStatus[node.id];
+            onExpand(newExpandStatus);
           },
         })
       );
+
+      if (!expandStatuses[node.id] || node.children.length <= 0) {
+        return;
+      }
+
       rootElement.appendChild(
         ComboboxList({
           depth: depth + 1,
           nodes: node.children,
           checkStatuses,
+          expandStatuses,
           onClick: newCheckStatus => {
             const isAllFull: boolean = node.children.every(
               childNode => newCheckStatus[childNode.id] === CheckStatus.FULL
@@ -83,6 +102,7 @@ export default function ComboboxList({
 
             onClick(newCheckStatus);
           },
+          onExpand,
         })
       );
     });
