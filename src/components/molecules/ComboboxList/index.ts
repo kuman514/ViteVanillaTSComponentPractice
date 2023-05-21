@@ -1,44 +1,90 @@
 import Combobox from '^/components/molecules/Combobox';
-import { CheckStatus, ComponentDataType } from '^/types';
+import {
+  CheckStatus,
+  ComponentDataType,
+  ComponentStatus,
+  DepthFirstSearchParameter,
+} from '^/types';
 import './style.scss';
 
 interface Props {
+  depth: number;
   nodes: ComponentDataType[];
-  onClick: (nodeId: number, newCheckStatus: CheckStatus) => void;
+  checkStatuses: ComponentStatus;
+  onClick: (newCheckStatus: ComponentStatus) => void;
 }
 
-export default function ComboboxList({ nodes, onClick }: Props) {
+export default function ComboboxList({
+  depth, nodes, checkStatuses, onClick,
+}: Props) {
   const rootElement = document.createElement('div');
   rootElement.className = 'combobox-list';
 
+  function handleOnClickCheckbox({
+    nodeArray, nodeId, newCheckStatuses, newCheckStatus,
+  }: DepthFirstSearchParameter) {
+    if (newCheckStatus !== undefined) {
+      newCheckStatuses[nodeId] = newCheckStatus;
+    }
+    const nodeData = nodeArray[nodeArray.findIndex(node => node.id === nodeId)];
+    nodeData.children.forEach(childNode => {
+      handleOnClickCheckbox({
+        nodeArray: nodeData.children,
+        nodeId: childNode.id,
+        newCheckStatuses,
+        newCheckStatus,
+      });
+    });
+  }
+
   function render() {
     nodes.forEach(node => {
-      const childToBeAppended = node.children.length > 0
-        ? ComboboxList({
-          nodes: node.children,
-          onClick: () => {
-            /**
-             * @todo
-             * Implement this method
-             */
-          },
-        }) : Combobox({
+      rootElement.appendChild(
+        Combobox({
+          checkStatus: checkStatuses[node.id],
           node,
           onClick: () => {
-            switch (node.checkStatus) {
-              case CheckStatus.FULL:
-                onClick(node.id, CheckStatus.NONE);
-                break;
-              case CheckStatus.PARTIAL:
-              case CheckStatus.NONE:
-                onClick(node.id, CheckStatus.FULL);
-                break;
-              default:
-                break;
-            }
+            const newCheckStatuses: ComponentStatus = {
+              ...checkStatuses,
+            };
+            const newCheckStatus: CheckStatus =
+              newCheckStatuses[node.id] === CheckStatus.FULL ? CheckStatus.NONE : CheckStatus.FULL;
+            handleOnClickCheckbox({
+              nodeArray: nodes,
+              nodeId: node.id,
+              newCheckStatuses,
+              newCheckStatus,
+            });
+            // Set State
+            onClick(newCheckStatuses);
           },
-        });
-      rootElement.appendChild(childToBeAppended);
+        })
+      );
+      rootElement.appendChild(
+        ComboboxList({
+          depth: depth + 1,
+          nodes: node.children,
+          checkStatuses,
+          onClick: newCheckStatus => {
+            const isAllFull: boolean = node.children.every(
+              childNode => newCheckStatus[childNode.id] === CheckStatus.FULL
+            );
+            const isAllNone: boolean = node.children.every(
+              childNode => newCheckStatus[childNode.id] === CheckStatus.NONE
+            );
+
+            if (isAllFull) {
+              newCheckStatus[node.id] = CheckStatus.FULL;
+            } else if (isAllNone) {
+              newCheckStatus[node.id] = CheckStatus.NONE;
+            } else {
+              newCheckStatus[node.id] = CheckStatus.PARTIAL;
+            }
+
+            onClick(newCheckStatus);
+          },
+        })
+      );
     });
   }
 

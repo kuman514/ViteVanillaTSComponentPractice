@@ -6,9 +6,9 @@ import { CheckStatus, ComponentDataType } from '^/types';
 import './style.scss';
 
 interface Props {
-  onClick: () => void;
-  checkStatus: CheckStatus;
   node: ComponentDataType;
+  checkStatus: CheckStatus;
+  onClick: () => void;
 }
 
 export default function Combobox({ onClick, node, checkStatus }: Props) {

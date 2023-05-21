@@ -10,7 +10,11 @@ export interface ComponentDataType {
   children: ComponentDataType[];
 }
 
-export interface ComponentStatus {
-  nodeId: ComponentDataType['id'];
-  checkStatus: CheckStatus;
+export type ComponentStatus = Record<ComponentDataType['id'], CheckStatus>;
+
+export interface DepthFirstSearchParameter {
+  nodeArray: ComponentDataType[];
+  nodeId: number;
+  newCheckStatuses: ComponentStatus;
+  newCheckStatus?: CheckStatus;
 }
