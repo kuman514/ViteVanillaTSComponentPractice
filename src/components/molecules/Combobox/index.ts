@@ -19,13 +19,16 @@ export default function Combobox({
   rootElement.className = 'combobox';
 
   function render() {
-    rootElement.appendChild(ComboboxBody({
-      children: [
-        Checkbox({ checkStatus, onClick }),
-        Text({ text: node.title }),
-        EndTipArrow({ onClick: onChangeExpand }),
-      ],
-    }));
+    const children = [
+      Checkbox({ checkStatus, onClick }),
+      Text({ text: node.title }),
+    ];
+
+    if (node.children.length > 0) {
+      children.push(EndTipArrow({ onClick: onChangeExpand }));
+    }
+
+    rootElement.appendChild(ComboboxBody({ children }));
   }
 
   render();
