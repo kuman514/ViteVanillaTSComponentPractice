@@ -8,12 +8,44 @@ export const initComponentData: ComponentDataType[] = [
       {
         id: 101,
         title: 'Koishi Komeiji',
-        children: [],
+        children: [
+          {
+            id: 10101,
+            title: 'Chireiden',
+            children: [],
+          },
+          {
+            id: 10102,
+            title: 'Urban Legend in Limbo',
+            children: [],
+          },
+          {
+            id: 10103,
+            title: 'Antinomy of Common Flowers',
+            children: [],
+          },
+        ],
       },
       {
         id: 102,
         title: 'Nitori Kawashiro',
-        children: [],
+        children: [
+          {
+            id: 10201,
+            title: 'Chireiden',
+            children: [],
+          },
+          {
+            id: 10202,
+            title: 'Urban Legend in Limbo',
+            children: [],
+          },
+          {
+            id: 10203,
+            title: 'Antinomy of Common Flowers',
+            children: [],
+          },
+        ],
       },
       {
         id: 103,
