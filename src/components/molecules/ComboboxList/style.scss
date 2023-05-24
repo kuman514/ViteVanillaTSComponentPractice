@@ -1,4 +1,16 @@
 .combobox-list {
   box-sizing: border-box;
-  border: 1px solid black;
+  border-left: solid 1px black;
+
+  & .combobox {
+    border-right: solid 1px black;
+
+    &:first-of-type {
+      border-top: solid 1px black;
+    }
+
+    &:last-of-type {
+      border-bottom: solid 1px black;
+    }
+  }
 }
