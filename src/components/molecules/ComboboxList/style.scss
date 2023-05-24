@@ -1,8 +1,9 @@
 .combobox-list {
+  width: fit-content;
   box-sizing: border-box;
   border-left: solid 1px black;
 
-  & .combobox {
+  & > .combobox {
     border-right: solid 1px black;
 
     &:first-of-type {

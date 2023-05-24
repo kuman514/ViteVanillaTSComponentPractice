@@ -8,12 +8,13 @@ import './style.scss';
 interface Props {
   node: ComponentDataType;
   checkStatus: CheckStatus;
+  isExpanded: boolean;
   onClick: () => void;
   onChangeExpand: () => void;
 }
 
 export default function Combobox({
-  onClick, node, checkStatus, onChangeExpand,
+  onClick, node, checkStatus, isExpanded, onChangeExpand,
 }: Props) {
   const rootElement = document.createElement('div');
   rootElement.className = 'combobox';
@@ -25,7 +26,10 @@ export default function Combobox({
     ];
 
     if (node.children.length > 0) {
-      children.push(EndTipArrow({ onClick: onChangeExpand }));
+      children.push(EndTipArrow({
+        onClick: onChangeExpand,
+        isExpanded,
+      }));
     }
 
     rootElement.appendChild(ComboboxBody({ children }));

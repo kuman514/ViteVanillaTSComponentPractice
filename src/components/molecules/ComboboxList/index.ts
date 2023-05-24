@@ -49,6 +49,7 @@ export default function ComboboxList({
       rootElement.appendChild(
         Combobox({
           checkStatus: checkStatuses[node.id],
+          isExpanded: expandStatuses[node.id],
           node,
           onClick: () => {
             const newCheckStatuses: ComponentStatus = {
